@@ -28,23 +28,63 @@ The Streamlit UI will be available at `http://localhost:8501` and the FastAPI ba
 
 ## 🛠️ Architecture & Workflow
 
-```mermaid
-flowchart TD
-    A[Document Upload] --> B[Parsing & Chunking]
-    B --> C[Temporary Vector Store]
-    C --> D[Clause Extraction]
-    D --> E{Sufficiency Check}
-    E -->|Insufficient| F[Show Missing Info & Stop]
-    E -->|Sufficient| G[Document Classification]
-    G --> H[Knowledge‑Base Retrieval]
-    H --> I[Legal Review Agent]
-    I --> J[Evidence Search]
-    J --> K[Evidence Verification]
-    K --> L[Risk Analysis]
-    L --> M[Human Review]
-    M -->|Approve| N[Final Summary]
-    M -->|Re‑analyse| H
-    M -->|Escalate| O[End]
+```text
+Document Upload
+       │
+       ↓
+Document Parsing
+       │
+       ↓
+Temporary Document Vector Store
+       │
+       ↓
+Clause Extraction
+       │
+       ↓
+Sufficiency Check
+   /             \
+  /               \
+Insufficient   Sufficient
+   │                │
+   ↓                ↓
+Show Missing Info   Document Classification
+   │                │
+   ↓                ↓
+  END           Knowledge Base Retrieval
+                        │
+                        ↓
+                 Legal Review Agent
+                   /           \
+                  ↓             ↓
+          Document Evidence   Evidence
+               Search         Verification
+                    \           /
+                     \         /
+                      ↓       ↓
+                 Legal Findings
+                       │
+                       ↓
+                 Risk Analysis
+                       │
+                       ↓
+                 Human Review
+                       │
+      ┌───────────────────┬───────┼───────────────┐
+      ↓                   ↓       ↓               ↓
+   Approve            Re-analyze  Wrong        Escalate
+                                 Classification
+      │                   │       │               │
+      │                   ↓       ↓               ↓
+      │             Retrieve   Reclassify       END
+      │             Guidance      │
+      │                   │       │
+      │                   ↓       │
+      │             Legal Review │
+      │                Agent ◄────┘
+      │
+      ↓
+Final Legal Document
+      Summary
 ```
 
 1. **Upload** – User uploads PDF/DOCX/ODT/PNG/JPG.
