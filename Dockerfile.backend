@@ -1,11 +1,8 @@
-FROM python:3.14-slim
+FROM python:3.11-slim
 
 WORKDIR /app
 
-COPY requirements.txt .
-
-RUN pip install --no-cache-dir -r requirements.txt
-
+# Install system libraries needed by OCR and document rendering
 RUN apt-get update && apt-get install -y \
     libxcb1 \
     libgl1 \
@@ -15,15 +12,20 @@ RUN apt-get update && apt-get install -y \
     libxrender1 \
     && rm -rf /var/lib/apt/lists/*
 
+COPY requirements.txt .
+
+RUN pip install --no-cache-dir -r requirements.txt
+
 COPY backend ./backend
 COPY graph ./graph
 COPY rag ./rag
 COPY utils ./utils
 COPY knowledge_base ./knowledge_base
 COPY vector_store ./vector_store
+COPY static ./static
 
 RUN mkdir -p uploads
 
 EXPOSE 8000
 
-CMD ["sh", "-c", "uvicorn backend.main:app --host 0.0.0.0 --port ${PORT:-10000}"]
+CMD ["sh", "-c", "uvicorn backend.main:app --host 0.0.0.0 --port ${PORT:-8000}"]

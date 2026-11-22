@@ -19,6 +19,8 @@ __pycache__/
 
 # Local Vector Databases
 /chroma_db/
+vector_store/
+*.chroma
 
 # User Uploaded / Temporary Documents
 uploads/

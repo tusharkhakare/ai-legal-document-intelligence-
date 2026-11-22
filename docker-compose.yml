@@ -4,23 +4,24 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.backend
-
     ports:
       - "8000:8000"
-
+    volumes:
+      - ./uploads:/app/uploads
+      - ./legal_documents.db:/app/legal_documents.db
+      - ./vector_store:/app/vector_store
     env_file:
       - .env
+    restart: unless-stopped
 
   frontend:
     build:
       context: .
       dockerfile: Dockerfile.frontend
-
     ports:
       - "8501:8501"
-
     environment:
       BACKEND_URL: http://backend:8000
-
     depends_on:
       - backend
+    restart: unless-stopped

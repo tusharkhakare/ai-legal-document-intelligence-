@@ -418,6 +418,9 @@ Shared state used throughout the workflow.
 **`graph/nodes.py`**
 Document processing, clause extraction, sufficiency check, classification, legal review, risk analysis, human review, and final summary logic.
 
+**`rag/embeddings.py`**
+Centralized thread-safe singleton embedding loader with local cache fallback.
+
 **`rag/kb_retriever.py`**
 Knowledge-base retrieval.
 
@@ -425,7 +428,28 @@ Knowledge-base retrieval.
 Document evidence search and evidence verification tools.
 
 **`rag/document_retriever.py`**
-Temporary vector store creation and document retrieval.
+Temporary vector store creation, chunking, and automated disk cleanup.
+
+**`static/styles.css`**
+Modular UI stylesheet for the Streamlit application.
+
+**`run_tests.py`**
+Comprehensive test suite runner.
+
+---
+
+## 🧪 Testing
+
+The project includes unit and integration tests covering document parsing, AI model structures, edge cases, database CRUD operations, and LangGraph workflow orchestration.
+
+Run all tests:
+```bash
+python run_tests.py
+```
+Or via standard unittest:
+```bash
+python -m unittest discover -s tests -p "test_*.py"
+```
 
 ---
 
@@ -452,7 +476,7 @@ AI-generated findings may contain errors and should be reviewed by a qualified h
 
 ## 👨‍💻 Author
 
-**Aadarsh Pundhir**
+**Tushar Vijay Khakare**
 
 Built to demonstrate practical applications of:
 
